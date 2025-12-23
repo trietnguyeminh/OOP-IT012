@@ -1,0 +1,110 @@
+// 24521852.IT002.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// Họ và tên: Nguyễn Minh Triết
+// MSSV: 24521852
+// Lớp: IT002.Q12.1
+#include <iostream>
+#include<vector>
+using namespace std;
+class Hinh {
+public:
+	virtual void nhap() = 0;
+	virtual void xuat() = 0;
+	virtual double dientich() = 0;
+	virtual double chuvi() = 0;
+	virtual ~Hinh() {}
+};
+class HinhBinhHanh : public Hinh {
+private:
+	double a, b, h; // day a , canh b , chieu cao h
+public:
+	void nhap() {
+		cout << "Nhap chieu dai canh a: ";
+		cin >> a;
+		cout << "Nhap chieu dai canh b: ";
+		cin >> b;
+		cout << "Nhap chieu cao h: ";
+		cin >> h;
+	}
+	void xuat() {
+		cout << "Hinh Binh Hanh: " << endl;
+		cout << "Canh a: " << a << ", Canh b: " << b << ", Chieu cao h: " << h << endl;
+		cout << "Dien tich: " << dientich() << endl;
+		cout << "Chu vi: " << chuvi() << endl;
+	}
+	double dientich() {
+		return a * h;
+	}
+	double chuvi() {
+		return 2 * (a + b);
+	}
+};
+class HinhThang : public Hinh {
+private:
+	double a, b, c, d, h; //day be a, day lon b, canh c, canh d, chieu cao h
+public:
+	void nhap() {
+		cout << "Nhap do dai day be a: ";
+		cin >> a;
+		cout << "Nhap do dai day lon b: ";
+		cin >> b;
+		cout << "Nhap do dai canh c: ";
+		cin >> c;
+		cout << "Nhap do dai canh d: ";
+		cin >> d;
+		cout << "Nhap chieu cao h: ";
+		cin >> h;
+	}
+	void xuat() {
+		cout << "Hinh Thang: " << endl;
+		cout << "Day be a: " << a << ", Day lon b: " << b << ", Canh c: " << c << ", Canh d: " << d << ", Chieu cao h: " << h << endl;
+		cout << "Dien tich: " << dientich() << endl;
+		cout << "Chu vi: " << chuvi() << endl;
+	}
+	double dientich() {
+		return ((a + b) * h) / 2;
+	}
+	double chuvi() {
+		return a + b + c + d;
+	}
+
+};
+int main() {
+	int n;
+	cout << "Nhap so luong n hinh: ";
+	cin >> n;
+	vector<Hinh*> danhSachHinh;
+	for (int i = 0; i < n; i++) {
+		int loai;
+		cout << "\nChon loai hinh (1 - Hinh Binh Hanh, 2 - Hinh Thang): ";
+		cin >> loai;
+
+		Hinh* h = nullptr;
+		if (loai == 1) {
+			h = new HinhBinhHanh();
+		}
+		else if (loai == 2) {
+			h = new HinhThang();
+		}
+
+		if (h != nullptr) {
+			h->nhap();
+			danhSachHinh.push_back(h);
+		}
+	}
+	cout << "\n---------------------------------------------<> THONG TIN CAC HINH DA NHAP <>---------------------------------------------" << endl;
+	double tongDienTich = 0;
+	for (int i = 0; i < danhSachHinh.size(); i++) {
+		cout << "Hinh thu " << i + 1 << ":" << endl;
+		danhSachHinh[i]->xuat();
+		tongDienTich += danhSachHinh[i]->dientich();
+		cout << "<<<<<<<<<------------------------------------------------------------------------------------------------------------->>>>>>>>>" << endl;
+	}
+	cout << "\n Tong dien tich cac hinh trong mat phanh: " << tongDienTich << endl;
+
+	for (Hinh* h : danhSachHinh) {
+		delete h;
+	}
+	danhSachHinh.clear();
+
+	return 0;
+}
